@@ -32,3 +32,22 @@ let propListDecoder = PropertyListDecoder()
         print("\(decodedNote)")
 
 }
+
+let note1 = Note(title: "Codable note1", text: "This as the test of Codable protocol with writng in a file number 1", timestamp: Date())
+let note2 = Note(title: "Codable note2", text: "This as the test of Codable protocol with writng in a file number 2", timestamp: Date())
+let note3 = Note(title: "Codable note3", text: "This as the test of Codable protocol with writng in a file number 3", timestamp: Date())
+let notes = [note1, note2, note3]
+let notesArchiveURL = documentsDirectory.appendingPathComponent("multi_notes_test").appendingPathExtension("plist")
+guard let encNotes = try? propListEncoder.encode(notes) else { exit(1) }
+try? encNotes.write(to: notesArchiveURL, options: .noFileProtection)
+
+if let retrData = try? Data(contentsOf: notesArchiveURL), let decodedNotes = try? propListDecoder.decode([Note].self, from: retrData) {
+    print("\(decodedNotes)")
+    print("\(decodedNotes[0].text)")
+}
+
+
+
+
+
+
